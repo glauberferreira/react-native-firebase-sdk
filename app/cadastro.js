@@ -36,6 +36,7 @@ const Cadastro = () => {
     } catch (error) {
         console.error(error.code);
         console.error(error.message);
+        setLoading(false);
     }
   }
   

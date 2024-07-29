@@ -23,6 +23,7 @@ export default function App() {
       const errorMessage = error.message;
       console.error(errorCode);
       console.error(errorMessage);
+      setLoading(false);
     }    
   }
 
