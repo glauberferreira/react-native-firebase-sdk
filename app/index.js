@@ -34,7 +34,7 @@ export default function App() {
       <Button mode='contained'>Login com o Google</Button>
       <View style={styles.links}>
         <Link href='/cadastro'>Cadastrar</Link>
-        <Link href='/'>Esqueci a Senha</Link>
+        <Link href='/esqueciSenha'>Esqueci a Senha</Link>
       </View>
       <StatusBar style="auto" />
     </View>
