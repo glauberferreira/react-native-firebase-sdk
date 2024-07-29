@@ -4,6 +4,7 @@ import { auth } from '../firebaseConfig';
 import { sendEmailVerification, signOut } from "firebase/auth";
 import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
+import Estilo from './estilo';
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ const Home = () => {
       <Text>E-mail Verified: {user.emailVerified.toString()}</Text>
       <Text>Phone Number: {user.phoneNumber}</Text>
       <Text>Photo URL: {user.photoURL}</Text>
-      <Link href='/atualizarPerfil'>Atualizar Perfil</Link>
+      <Link href='/atualizarPerfil' style={Estilo.link}>Atualizar Perfil</Link>
       <Button mode='contained' onPress={handleVerificarEmail} loading={loading} disabled={user.emailVerified}>Verificar E-mail</Button>
       <Button mode='contained' onPress={handleSair}>Sair</Button>
     </View>

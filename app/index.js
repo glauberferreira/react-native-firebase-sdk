@@ -5,6 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import { auth } from '../firebaseConfig';
 import { signInWithEmailAndPassword } from "firebase/auth";
+import Estilo from './estilo';
 
 export default function App() {
   const [email, setEmail] = useState('glauber.ferreira@ifal.edu.br');
@@ -34,8 +35,8 @@ export default function App() {
       <Button mode='contained' onPress={handleLogin} loading={loading}>Login</Button>
       <Button mode='contained'>Login com o Google</Button>
       <View style={styles.links}>
-        <Link href='/cadastro'>Cadastrar</Link>
-        <Link href='/esqueciSenha'>Esqueci a Senha</Link>
+        <Link style={Estilo.link} href='/cadastro'>Cadastrar</Link>
+        <Link style={Estilo.link} href='/esqueciSenha'>Esqueci a Senha</Link>
       </View>
       <StatusBar style="auto" />
     </View>
