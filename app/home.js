@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import { Button } from 'react-native-paper';
 import { auth } from '../firebaseConfig';
 import { sendEmailVerification, signOut } from "firebase/auth";
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
 
 const Home = () => {
@@ -39,6 +39,7 @@ const Home = () => {
       <Text>E-mail Verified: {user.emailVerified.toString()}</Text>
       <Text>Phone Number: {user.phoneNumber}</Text>
       <Text>Photo URL: {user.photoURL}</Text>
+      <Link href='/atualizarPerfil'>Atualizar Perfil</Link>
       <Button mode='contained' onPress={handleVerificarEmail} loading={loading} disabled={user.emailVerified}>Verificar E-mail</Button>
       <Button mode='contained' onPress={handleSair}>Sair</Button>
     </View>
