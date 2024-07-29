@@ -7,13 +7,16 @@ import { auth } from '../firebaseConfig';
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function App() {
-  const [email, setEmail] = useState('glauber.ferreira@ifal.edu.br')
-  const [senha, setSenha] = useState('')
+  const [email, setEmail] = useState('glauber.ferreira@ifal.edu.br');
+  const [senha, setSenha] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleLogin = async () => {
     try {
+      setLoading(true);
       await signInWithEmailAndPassword(auth, email, senha);
+      setLoading(false);
       router.replace('/home');
     } catch (error) {
       const errorCode = error.code;
@@ -27,7 +30,7 @@ export default function App() {
     <View style={styles.container}>
       <TextInput label="E-mail" value={email} onChangeText={setEmail} placeholder='E-mail'/>
       <TextInput label="Senha" value={senha} onChangeText={setSenha} placeholder='Senha' secureTextEntry/>
-      <Button mode='contained' onPress={handleLogin}>Login</Button>
+      <Button mode='contained' onPress={handleLogin} loading={loading}>Login</Button>
       <Button mode='contained'>Login com o Google</Button>
       <View style={styles.links}>
         <Link href='/cadastro'>Cadastrar</Link>
