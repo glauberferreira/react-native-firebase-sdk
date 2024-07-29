@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 
 const Home = () => {
   const router = useRouter();
+  const user = auth.currentUser;
 
   const handleSair = async () => {
     try {
@@ -19,7 +20,12 @@ const Home = () => {
 
   return (
     <View>
-      <Text>Home</Text>
+      <Text>UID: {user.uid}</Text>
+      <Text>Display Name: {user.displayName}</Text>
+      <Text>E-mail: {user.email}</Text>
+      <Text>E-mail Verified: {user.emailVerified}</Text>
+      <Text>Phone Number: {user.phoneNumber}</Text>
+      <Text>Photo URL: {user.photoURL}</Text>
       <Button mode='contained' onPress={handleSair}>Sair</Button>
     </View>
   )
