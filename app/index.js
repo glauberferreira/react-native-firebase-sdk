@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -9,13 +9,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 export default function App() {
   const [email, setEmail] = useState('glauber.ferreira@ifal.edu.br')
   const [senha, setSenha] = useState('')
+  const router = useRouter();
 
   const handleLogin = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-      // Signed up 
-      const user = userCredential.user;
-      console.log(user);
+      await signInWithEmailAndPassword(auth, email, senha);
+      router.replace('/home');
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
