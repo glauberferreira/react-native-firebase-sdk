@@ -10,21 +10,18 @@ export default function App() {
   const [email, setEmail] = useState('glauber.ferreira@ifal.edu.br')
   const [senha, setSenha] = useState('')
 
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, senha)
-    .then((userCredential) => {
+  const handleLogin = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, senha);
       // Signed up 
       const user = userCredential.user;
       console.log(user);
-      // ...
-    })
-    .catch((error) => {
+    } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error(errorCode);
       console.error(errorMessage);
-      // ..
-    });    
+    }    
   }
 
   return (
