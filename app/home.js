@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator } from 'react-native'
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
 import { Button } from 'react-native-paper';
 import { auth, db } from '../firebaseConfig';
 import { sendEmailVerification, signOut } from "firebase/auth";
@@ -69,7 +69,10 @@ const Home = () => {
           <Text>Phone Number: {user.phoneNumber}</Text>
           <Text>Photo URL: {user.photoURL}</Text>
           <Text>Nome Completo: {usuarioFirestore.nomeCompleto}</Text>
-          <Link href='/atualizarPerfil' style={Estilo.link}>Atualizar Perfil</Link>
+          <View style={styles.links}>
+            <Link href='/atualizarPerfil' style={Estilo.link}>Atualizar Perfil</Link>
+            <Link href='/tarefas' style={Estilo.link}>Tarefas</Link>
+          </View>
           <Button mode='contained' onPress={handleVerificarEmail} loading={loadingVerificarEmail} disabled={user.emailVerified}>Verificar E-mail</Button>
           <Button mode='contained' onPress={handleSair}>Sair</Button>
         </>
@@ -77,5 +80,12 @@ const Home = () => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  links: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  }
+});
 
 export default Home;
