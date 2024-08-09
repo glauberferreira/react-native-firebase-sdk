@@ -2,13 +2,47 @@ import { View, Text, ActivityIndicator, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'expo-router';
 import Estilo from '../estilo';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { auth, db } from '../../firebaseConfig';
-import { List } from 'react-native-paper';
+import { IconButton, List } from 'react-native-paper';
+
+const Tarefa = ({ id, titulo, descricao, setDeletedDate }) => {
+    const [loading, setLoading] = useState(false);
+
+    /**
+     * https://firebase.google.com/docs/firestore/manage-data/delete-data#delete_documents
+     * 
+     * Regra com as permissões necessárias para o funcionamento.
+     * 
+     * A exclusão de tarefas é permitida para usuários logados e apenas para as suas próprias tarefas.
+     *  match /tarefas/{id} {
+     *      allow delete: if request.auth != null && request.auth.uid == resource.data.idUsuario;
+     *  }    
+     */
+    const handleDeleteTarefa = async (id) => {
+        try {
+            setLoading(true);
+            await deleteDoc(doc(db, "tarefas", id));
+            setDeletedDate(new Date());
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return (
+        <List.Item
+            title={titulo}
+            description={descricao}
+            right={props => <IconButton {...props} icon='delete' iconColor='red' loading={loading} onPress={() => handleDeleteTarefa(id)} />} />
+    )
+}
 
 const Index = () => {
     const [loading, setLoading] = useState(true);
     const [tarefas, setTarefas] = useState([]);
+    const [deletedDate, setDeletedDate] = useState(null);
     const user = auth.currentUser;
 
     /**
@@ -35,7 +69,7 @@ const Index = () => {
 
     useEffect(() => {
         getAllTarefas();
-    }, []);
+    }, [deletedDate]);
 
     return (
         <View>
@@ -46,10 +80,11 @@ const Index = () => {
                 <FlatList
                     data={tarefas}
                     renderItem={({ item }) => (
-                        <List.Item title={item.titulo} description={item.descricao} />
+                        <Tarefa id={item.id} titulo={item.titulo} descricao={item.descricao} setDeletedDate={setDeletedDate} />
                     )}
                 />
             )}
+            <Link style={Estilo.link} href='/home'>Home</Link>
         </View>
     )
 }
