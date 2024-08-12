@@ -49,6 +49,7 @@ const Id = () => {
                 <>
                     <Text>Título: {tarefa.titulo}</Text>
                     <Text>Descrição: {tarefa.descricao}</Text>
+                    <Text>Concluída: {tarefa.concluida.toString()}</Text>
                 </>
             )}
             <Link href='/tarefas' style={Estilo.link}>Voltar</Link>

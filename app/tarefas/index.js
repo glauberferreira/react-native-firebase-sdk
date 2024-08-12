@@ -35,12 +35,21 @@ const Tarefa = ({ id, titulo, descricao, setDeletedDate, router }) => {
         router.navigate({ pathname: '/tarefas/[id]', params: { id: id } });
     }
 
+    const handleEditTarefa = () => {
+        router.navigate({ pathname: '/tarefas/edit/[id]', params: { id: id } });
+    }
+
     return (
         <List.Item
             title={titulo}
             description={descricao}
             onPress={() => handleGetTarefa()}
-            right={props => <IconButton {...props} icon='delete' iconColor='red' loading={loading} onPress={() => handleDeleteTarefa()} />} />
+            right={props =>
+                <>
+                    <IconButton {...props} icon='note-edit' onPress={() => handleEditTarefa()} />
+                    <IconButton {...props} icon='delete' iconColor='red' loading={loading} onPress={() => handleDeleteTarefa()} />
+                </>
+            } />
     )
 }
 
