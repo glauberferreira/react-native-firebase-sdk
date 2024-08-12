@@ -1,12 +1,12 @@
 import { View, Text, ActivityIndicator, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import Estilo from '../estilo';
 import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { auth, db } from '../../firebaseConfig';
 import { IconButton, List } from 'react-native-paper';
 
-const Tarefa = ({ id, titulo, descricao, setDeletedDate }) => {
+const Tarefa = ({ id, titulo, descricao, setDeletedDate, router }) => {
     const [loading, setLoading] = useState(false);
 
     /**
@@ -19,7 +19,7 @@ const Tarefa = ({ id, titulo, descricao, setDeletedDate }) => {
      *      allow delete: if request.auth != null && request.auth.uid == resource.data.idUsuario;
      *  }    
      */
-    const handleDeleteTarefa = async (id) => {
+    const handleDeleteTarefa = async () => {
         try {
             setLoading(true);
             await deleteDoc(doc(db, "tarefas", id));
@@ -31,11 +31,16 @@ const Tarefa = ({ id, titulo, descricao, setDeletedDate }) => {
         }
     }
 
+    const handleGetTarefa = () => {
+        router.navigate({ pathname: '/tarefas/[id]', params: { id: id } });
+    }
+
     return (
         <List.Item
             title={titulo}
             description={descricao}
-            right={props => <IconButton {...props} icon='delete' iconColor='red' loading={loading} onPress={() => handleDeleteTarefa(id)} />} />
+            onPress={() => handleGetTarefa()}
+            right={props => <IconButton {...props} icon='delete' iconColor='red' loading={loading} onPress={() => handleDeleteTarefa()} />} />
     )
 }
 
@@ -44,6 +49,7 @@ const Index = () => {
     const [tarefas, setTarefas] = useState([]);
     const [deletedDate, setDeletedDate] = useState(null);
     const user = auth.currentUser;
+    const router = useRouter();
 
     /**
      * https://firebase.google.com/docs/firestore/query-data/get-data#get_multiple_documents_from_a_collection
@@ -80,7 +86,7 @@ const Index = () => {
                 <FlatList
                     data={tarefas}
                     renderItem={({ item }) => (
-                        <Tarefa id={item.id} titulo={item.titulo} descricao={item.descricao} setDeletedDate={setDeletedDate} />
+                        <Tarefa id={item.id} titulo={item.titulo} descricao={item.descricao} setDeletedDate={setDeletedDate} router={router} />
                     )}
                 />
             )}
